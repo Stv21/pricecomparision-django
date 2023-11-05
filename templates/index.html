@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Price Comparison</title>
+    <link rel="icon" href="{% static 'images/logosqr.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+   
+    <div class="slider-container">
+        <div class="slideshow">
+            <div class="mySlides fade">
+                <img src="{% static 'images/img1s.jpg' %}" style="width: 485px; height: 273px;">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/img2s.jpg' %}" style="width: 440px; height: 273px; margin-left: 23px;">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/img3s.jpg' %}" style="width: 485px; height: 273px;">
+            </div>
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+    </div>
+
+    <br>
+    <div class="dot-container">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+    <div class="detail-box">
+        <img src="https://cdn-icons-png.flaticon.com/128/7480/7480359.png" alt="Image Description" class="detail-image">
+        <div class="leftdetail style="width: 350px>
+            <h1>One Shoppe</h1>
+            <p style="width: 350px;margin-left: 239px;margin-bottom: 20px;">Compare, Click and Conquer savings!</p>
+            <a href="" style="margin-left: 239px;">Contact Us</a>
+        </div>
+    </div>
+    <br> <br>
+
+    <main id="results" class="product-list"></main>
+    <h3> Today's Deals &nbsp;&nbsp;<i class="fa-solid fa-hourglass-start" style="color: #5f7b50;"></i></h3></br>
+
+    <script src="{% static 'script.js' %}"></script>
+
+    <div class="shop-section">
+        <div class="box" style="margin-top: 20px;margin-bottom: 20px;">
+            <div class="box-img">
+                <img src="https://rukminim1.flixcart.com/image/312/312/l4vnbm80/mobile/9/g/l/m53-5g-sm-m536bzneinu-samsung-original-imagfzjgxyrv9zwz.jpeg?q=70" style="margin-top: 70px;">
+            </div>
+            <h2 style="margin-top: 100px;">Mobile</h2>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="https://rukminim1.flixcart.com/image/312/312/xif0q/mobile/l/8/r/-original-imaghxemnnnkd8bg.jpeg?q=70" style="margin-top: 70px;">
+            </div>
+            <h2 style="margin-top: 100px;">iphone</h2>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="https://rukminim1.flixcart.com/image/312/312/kx9as280/television/d/e/b/-original-imag9rfguf6nevgd.jpeg?q=70" style="margin-top: 70px;">
+            </div>
+            <h2 style="margin-top: 100px;">Televisions</h2>
+        </div>
+        <div class="box">
+            <div class="box-img">
+                <img src="https://www.laptopsreviewer.com/wp-content/uploads/2020/10/hp-notebook-pc-348-g7-14-inch-laptop-10th-gen-core-i5-10210u8gb1tb-1920x1920.jpg" style="margin-top: 70px;">
+            </div>
+            <h2></h2>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

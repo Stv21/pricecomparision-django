@@ -1,0 +1,10 @@
+{
+    "python.pythonPath": "C:\\Python3\\python.exe",
+    "files.associations": {
+        "CG.C": "cpp",
+        "CGNEW.C": "cpp",
+        "CG[1].C": "cpp",
+        "DDA.C": "cpp"
+    },
+    "python.analysis.autoImportCompletions": false
+}

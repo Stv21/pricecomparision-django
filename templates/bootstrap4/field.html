@@ -1,0 +1,12 @@
+{# your_project/templates/bootstrap4/field.html #}
+{% load crispy_forms_field %}
+
+<div class="form-group{% if field.errors %} has-error{% endif %}">
+    {{ field.label|safe }}
+    {{ field }}
+    {% if field.errors %}
+        <div class="invalid-feedback">
+            {{ field.errors }}
+        </div>
+    {% endif %}
+</div>

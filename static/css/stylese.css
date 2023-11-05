@@ -1,0 +1,122 @@
+/* Reset some default browser styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: Arial, sans-serif;
+  }
+  header {
+    background-color: #45214f;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo img {
+    max-width: 100px;
+  }
+  .search {
+    display: flex;
+    align-items: center;
+  }
+  #searchInput {
+    padding: 8px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+  }
+  #searchButton {
+    padding: 8px 15px;
+    background-color: #febd69;
+    color: none;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+  .cart-icon img {
+      max-width: 50px; /* This will set the maximum width of the cart icon */
+        
+      
+  }
+  
+  .product-nav {
+  background-color:none;color:#fff;text-align:center;padding:
+  10px
+  0
+  }
+  .product-nav ul {
+  list-style:none;display:flex;justify-content:center;margin:
+  0
+  }
+  .product-nav li {margin-right:
+  20px;font-size:
+  16px;font-weight:bold;text-transform:
+  uppercase
+  }
+  .product-nav li:last-child {margin-right:
+  0
+  }
+  .product-nav a {color:#fff;text-decoration:none;padding:
+  5px
+  10px;border-radius:
+  4px;transition:
+  background-color .2s ease-in-out
+  }
+  .product-nav a:hover {background-color:#febd69;color:#232f3e}
+  
+  .product-list {
+  display:flex;flex-wrap:
+  wrap;gap:
+  20px;margin:0px;
+
+  }
+  .product {
+  background-color:#fff;border:
+  1px solid #ddd;border-radius:
+  4px;padding:
+  20px;width:
+  calc(33.33% -20px);box-sizing:border-box;box-shadow:
+  0
+  2px
+  4px rgba(0,0,0,.1)
+  }
+  .product img {
+  max-width:
+  100%;height:auto
+  }
+  .product h2 {
+  margin-top:
+  10px;font-size:
+  16px;font-weight:bold
+  }
+  .product p {
+  margin:
+  5px
+  0;color:#888
+  }
+  .product button {
+  padding:
+  5px
+  10px;background-color:#febd69;color:#232f3e;border:none;border-radius:
+  4px;cursor:pointer
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width:
+  768px) {.product {width:
+  calc(50% -20px)}}
+  
+  @media (max-width:
+  480px) {.product {width:
+  100%}}
+  
+  .search-bar {
+      margin-left: auto; /* This will push the search bar to the right */
+      display: flex; /* This will make the search bar a flex container */
+      align-items: center; /* This will center the items vertically */
+  }
+  #navSearchInput {
+      margin-right: 10px; /* This will add some space between the input and the button */
+  }
+  
