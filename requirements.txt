@@ -6,3 +6,4 @@ pandas
 bootstrap
 fuzzywuzzy
 python-Levenshtein
+requests
