@@ -59,8 +59,8 @@ def convert_dollars_to_rupees(price_in_dollars, exchange_rate=75.0):
 def search_view(request):
     query = request.GET.get('query', '')
     if query:
-        flipkart_file = r'C:\Users\stvma\Downloads\archive\flipkart_com-ecommerce_sample.csv'
-        amazon_file = r'C:\Users\stvma\Downloads\archive (1)\home\sdf\marketing_sample_for_amazon_com-ecommerce__20200101_20200131__10k_data.csv'
+        flipkart_file = r'static\files\flipkart_com-ecommerce_sample.csv'
+        amazon_file = r'static\files\marketing_sample_for_amazon_com-ecommerce__20200101_20200131__10k_data.csv'
         result = compare_prices(flipkart_file, amazon_file, query)
         context = {
             'query': query,
@@ -68,8 +68,10 @@ def search_view(request):
             'amazon_products': result['amazon_products'],
             'flipkart_products': result['flipkart_products'],
             'best_product': result['best_product'],
-            'best_price': result['best_price']
-        }
+            'best_price': result['best_price'],
+        } # Add a comma to separate the previous statement from the next
+        context['amazon_categories'] = [product['category'].split('|')[0] for product in result['amazon_products']]
+        context['flipkart_categories'] = [product['category'].split('|')[0] for product in result['flipkart_products']]
         return render(request, 'search_results.html', context)
     else:
         return HttpResponse("Please provide a query for search.")
@@ -89,7 +91,7 @@ def compare_prices(flipkart_file, amazon_file, product_name, category=None):
     amazon_prices = []
     
     # Define the maximum number of products for each category
-    max_products_per_category = 3
+    max_products_per_category = 4
 
     for index, row in flipkart_products.iterrows():
         name = row['product_name']
