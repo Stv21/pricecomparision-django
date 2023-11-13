@@ -70,8 +70,8 @@ def search_view(request):
             'best_product': result['best_product'],
             'best_price': result['best_price'],
         } # Add a comma to separate the previous statement from the next
-        context['amazon_categories'] = [product['category'].split('|')[0] for product in result['amazon_products']]
-        context['flipkart_categories'] = [product['category'].split('|')[0] for product in result['flipkart_products']]
+        context['amazon_categories'] = [product['category'].split('|')[0] if isinstance(product['category'], str) else product['category'] for product in result['amazon_products']]
+        context['flipkart_categories'] = [product['category'].split('|')[0] if isinstance(product['category'], str) else product['category'] for product in result['flipkart_products']]
         return render(request, 'search_results.html', context)
     else:
         return HttpResponse("Please provide a query for search.")
