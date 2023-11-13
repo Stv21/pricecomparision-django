@@ -32,6 +32,16 @@ function displaySearchResults(data) {
     resultsContainer.appendChild(productElement);
   });
 }
+function searchProducts() {
+  // Show the spinner
+  document.getElementById('loading').style.display = 'block';
+
+  // Your existing search code...
+
+  // Once the search is complete, hide the spinner
+  // This might be in a callback or a 'finally' block if you're using promises
+  document.getElementById('loading').style.display = 'none';
+}
 
 // Event listener for Enter key press in the search input field
 searchInput.addEventListener("keyup", function (event) {

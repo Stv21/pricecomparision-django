@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import logout, authenticate, login
 import requests
@@ -7,6 +8,7 @@ from django.contrib.auth.models import User
 from .forms import PriceAlertForm
 from .models import PriceAlert
 from django.contrib import messages
+from django.conf import settings
 
 
 # Create your views here.
@@ -59,8 +61,8 @@ def convert_dollars_to_rupees(price_in_dollars, exchange_rate=75.0):
 def search_view(request):
     query = request.GET.get('query', '')
     if query:
-        flipkart_file = r'static\files\flipkart_com-ecommerce_sample.csv'
-        amazon_file = r'static\files\marketing_sample_for_amazon_com-ecommerce__20200101_20200131__10k_data.csv'
+        flipkart_file = os.path.join(settings.BASE_DIR, 'static', 'files', 'flipkart_com-ecommerce_sample.csv')
+        amazon_file = os.path.join(settings.BASE_DIR, 'static', 'files', 'marketing_sample_for_amazon_com-ecommerce__20200101_20200131__10k_data.csv')
         result = compare_prices(flipkart_file, amazon_file, query)
         context = {
             'query': query,
@@ -77,75 +79,89 @@ def search_view(request):
         return HttpResponse("Please provide a query for search.")
     
 def compare_prices(flipkart_file, amazon_file, product_name, category=None):
-    flipkart_data = pd.read_csv(flipkart_file)
-    amazon_data = pd.read_csv(amazon_file)
+    try:
+        flipkart_data = pd.read_csv(flipkart_file)
+        amazon_data = pd.read_csv(amazon_file)
 
-    flipkart_products = flipkart_data[flipkart_data['product_name'].str.lower().str.contains(product_name.lower())]
-    amazon_products = amazon_data[amazon_data['Product Name'].str.lower().str.contains(product_name.lower())]
+        flipkart_products = flipkart_data[flipkart_data['product_name'].str.lower().str.contains(product_name.lower())]
+        amazon_products = amazon_data[amazon_data['Product Name'].str.lower().str.contains(product_name.lower())]
 
-    if category:
-        flipkart_products = flipkart_products[flipkart_products['product_category_tree'].str.contains(category)]
-        amazon_products = amazon_products[amazon_products['Category'].str.contains(category)]
+        if category:
+            flipkart_products = flipkart_products[flipkart_products['product_category_tree'].str.contains(category)]
+            amazon_products = amazon_products[amazon_products['Category'].str.contains(category)]
 
-    flipkart_prices = []
-    amazon_prices = []
-    
-    # Define the maximum number of products for each category
-    max_products_per_category = 4
+        flipkart_prices = []
+        amazon_prices = []
 
-    for index, row in flipkart_products.iterrows():
-        name = row['product_name']
-        price = row['discounted_price']
-        if not pd.isna(price):
-            price = float(price)
-            url = row['product_url']
-            image_links = row['image'].strip('][').replace('"', '').split(', ')
-            product_category = row['product_category_tree']  # Add category field
+        # Define the maximum number of products for each category
+        max_products_per_category = 4
 
-            flipkart_prices.append({'name': name, 'price': price, 'url': url, 'images': image_links, 'category': product_category})
-            if len(flipkart_prices) >= max_products_per_category:
-                break
+        for index, row in flipkart_products.iterrows():
+            name = row['product_name']
+            price = row['discounted_price']
+            if not pd.isna(price):
+                price = float(price)
+                url = row['product_url']
+                image_links = row['image'].strip('][').replace('"', '').split(', ')
+                product_category = row['product_category_tree']  # Add category field
 
-    for index, row in amazon_products.iterrows():
-        name = row['Product Name']
-        price = row['Selling Price']
-        if not pd.isna(price):
-            price = convert_dollars_to_rupees(price)
-            if price is not None:
-                url = row['Product Url']
-                image_links = row['Image'].split('|')
-                product_category = row['Category']  # Add category field
-
-                amazon_prices.append({'name': name, 'price': price, 'url': url, 'images': image_links, 'category': product_category})
-                if len(amazon_prices) >= max_products_per_category:
+                flipkart_prices.append({'name': name, 'price': price, 'url': url, 'images': image_links, 'category': product_category})
+                if len(flipkart_prices) >= max_products_per_category:
                     break
 
-    if not flipkart_prices and not amazon_prices:
-        return f"No results found for {product_name}."
+        for index, row in amazon_products.iterrows():
+            name = row['Product Name']
+            price = row['Selling Price']
+            if not pd.isna(price):
+                price = convert_dollars_to_rupees(price)
+                if price is not None:
+                    url = row['Product Url']
+                    image_links = row['Image'].split('|')
+                    product_category = row['Category']  # Add category field
 
-    # Determine the best product based on price
-    best_flipkart = None
-    flipkart_price = None
-    best_amazon = None
-    amazon_price = None
+                    amazon_prices.append({'name': name, 'price': price, 'url': url, 'images': image_links, 'category': product_category})
+                    if len(amazon_prices) >= max_products_per_category:
+                        break
 
-    if flipkart_prices:
-        best_flipkart = min(flipkart_prices, key=lambda k: k['price'])
-        flipkart_price = best_flipkart['price']
+        if not flipkart_prices and not amazon_prices:
+            return f"No results found for {product_name}."
 
-    if amazon_prices:
-        best_amazon = min(amazon_prices, key=lambda k: k['price'])
-        amazon_price = best_amazon['price']
+        # Determine the best product based on price
+        best_flipkart = None
+        flipkart_price = None
+        best_amazon = None
+        amazon_price = None
 
-    result = {
-        'products': product_name,
-        'amazon_products': amazon_prices,
-        'flipkart_products': flipkart_prices,
-        'best_product': best_flipkart if flipkart_prices and amazon_prices else None,
-        'best_price': flipkart_price if flipkart_price < amazon_price else amazon_price if flipkart_prices and amazon_prices else None,
-    }
-    return result
+        try:
+            if flipkart_prices:
+                best_flipkart = min(flipkart_prices, key=lambda k: k['price'])
+                flipkart_price = best_flipkart['price']
 
+            if amazon_prices:
+                best_amazon = min(amazon_prices, key=lambda k: k['price'])
+                amazon_price = best_amazon['price']
+        except Exception as e:
+            print(f"Error: {e}")
+            print(f"Error: {e}")
+
+        result = {
+            'products': product_name,
+            'amazon_products': amazon_prices,
+            'flipkart_products': flipkart_prices,
+            'best_product': best_flipkart if flipkart_prices and amazon_prices else None,
+            'best_price': flipkart_price if flipkart_price < amazon_price else amazon_price if flipkart_prices and amazon_prices else None,
+        }
+        return result
+
+    except Exception as e:
+        print(f"Error comparing prices: {e}")
+        return {
+            'products': [],
+            'amazon_products': [],
+            'flipkart_products': [],
+            'best_product': None,
+            'best_price': None,
+        }
 
 
 
