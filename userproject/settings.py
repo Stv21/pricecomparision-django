@@ -22,7 +22,7 @@ app = Celery('userproject')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 app.config_from_object('django.conf:settings', namespace='CELERY')
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+w2t1e^5j(dc$6hp$z8q%j&u@()wo327xxiq@bd%z7*v27_hx%'
+
 
 app.autodiscover_tasks()
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -142,7 +142,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '202201029.stevenmsn@gmail.com'  # Replace with your Gmail email
-EMAIL_HOST_PASSWORD = 'Xavier@123'  # Replace with your Gmail password
+EMAIL_HOST_PASSWORD = 'secret'  # Replace with your Gmail password
 
 DEFAULT_FROM_EMAIL = '202201029.stevenmsn@gmail.com'  # Replace with your Gmail email
 SERVER_EMAIL = '202201029.stevenmsn@gmail.com'  # Replace with your Gmail email
