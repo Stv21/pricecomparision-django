@@ -3,7 +3,7 @@ celery
 django-crispy-forms
 numpy
 pandas
-bootstrap
+bootstrap4
 fuzzywuzzy
 python-Levenshtein
 requests
