@@ -26,7 +26,7 @@
 <div class="product-list">
   {% for product in amazon_products %}
     <div class="product">
-      <img src="//{{ product.images.0|cut:'http:' }}" alt="{{ product.name }}">
+      <img src="{{ product.images.0 }}" alt="{{ product.name }}">
       <p class="product-name">Product Name: {{ product.name }}</p>
       <p class="product-price">Price: Rs. {{ product.price }}</p>
       <p class="product-category">Category: {{ product.category }}</p>
@@ -45,19 +45,6 @@
       <p class="product-price">Price: Rs. {{ product.price }}</p>
       <p class="product-category">Category: {{ product.category }}</p>
       <p class="product-link">View on Flipkart: <a href="{{ product.url }}" target="_blank">Link</a></p>
-    </div>
-  {% endfor %}
-</div>
-
-<!-- Display best product and price -->
-{% if best_product and best_price %}
-    <h2>Best Product and Price</h2>
-    <div class="product">
-      <img src="//{{ best_product.images.0|cut:'http:' }}" alt="{{ best_product.name }}">
-      <p class="product-name">The best product for "{{ query }}" is {{ best_product.name }}</p>
-      <p class="product-price">Price: Rs. {{ best_price|floatformat:2 }}</p>
-      <p class="product-category">Category: {{ best_product.category }}</p>
-      <p class="product-link">View on the retailer: <a href="{{ best_product.url }}" target="_blank">Link</a></p>
     </div>
   {% endfor %}
 </div>
