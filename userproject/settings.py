@@ -22,6 +22,7 @@ app = Celery('userproject')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 app.config_from_object('django.conf:settings', namespace='CELERY')
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '+w2t1e^5j(dc$6hp$z8q%j&u@()wo327xxiq@bd%z7*v27_hx%'
 
 
 app.autodiscover_tasks()
